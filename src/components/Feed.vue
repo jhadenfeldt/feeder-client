@@ -3,6 +3,9 @@
     <div class="feed__item">
       <div class="feed__background" v-html="currentItem.content" v-if="currentItem.hasImage"></div>
       <div class="feed__content">
+        <div class="feed__progressContainer">
+          <div class="feed__progressBar" :class="{'feed__progressBar--animate': animate}" :style="`background: ${currentItem.gradient[0]}`"></div>
+        </div>
         <div class="feed__title">{{currentItem.title}}</div>
         <div class="feed__subtitle">{{currentItem.pageName}} - {{currentItem.isoDate | ago}}</div>
       </div>
@@ -30,7 +33,8 @@
       return {
         currentItem: null,
         feed: null,
-        feedIndex: 0
+        feedIndex: 0,
+        animate: false
       }
     },
     mounted() {
@@ -61,13 +65,25 @@
       },
       updateItem() {
         this.currentItem = this.feed[this.feedIndex];
+        this.$nextTick(() => {
+          this.animate = true;
+        });
+
+        setTimeout(() => {
+          this.animate = false;
+        }, 29.75 * 1000);
 
         setTimeout(() => {
           this.feedIndex++;
+
           if (this.feedIndex >= this.feed.length) {
-            this.updateFeed();
+            this.$nextTick(() => {
+              this.updateFeed();
+            });
           } else {
-            this.updateItem();
+            this.$nextTick(() => {
+              this.updateItem();
+            });
           }
         }, 30 * 1000);
       }
@@ -80,6 +96,29 @@
   .feed {
     width: 100vw;
     height: 100vh;
+
+    &__progressContainer {
+      z-index: 3;
+      height: 5px;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &__progressBar {
+      height: 5px;
+      width: 0;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transition: width linear 0s;
+
+      &--animate {
+        width: 100%;
+        transition-duration: 29.75s;
+      }
+    }
 
     &__item {
       height: 100%;
