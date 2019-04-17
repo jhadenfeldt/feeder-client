@@ -15,80 +15,80 @@
 </template>
 
 <script>
-  import dayjs from 'dayjs';
-  import relativeTime from 'dayjs/plugin/relativeTime';
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
-  dayjs.extend(relativeTime);
+import VueQrcode from '@chenfengyuan/vue-qrcode'
 
-  import VueQrcode from '@chenfengyuan/vue-qrcode';
+dayjs.extend(relativeTime)
 
-  export default {
-    props: {
-      msg: String
-    },
-    components: {
-      VueQrcode
-    },
-    data() {
-      return {
-        currentItem: null,
-        feed: null,
-        feedIndex: 0,
-        animate: false
+export default {
+  props: {
+    msg: String
+  },
+  components: {
+    VueQrcode
+  },
+  data () {
+    return {
+      currentItem: null,
+      feed: null,
+      feedIndex: 0,
+      animate: false
+    }
+  },
+  mounted () {
+    this.updateFeed()
+  },
+  filters: {
+    ago: (value) => {
+      if (!value) {
+        return ''
       }
-    },
-    mounted() {
-      this.updateFeed();
-    },
-    filters: {
-      ago: (value) => {
-        if (!value) {
-          return '';
-        }
-        return dayjs(value).fromNow();
-      }
-    },
-    methods: {
-      updateFeed() {
-        this.feedIndex = 0;
-        fetch('http://feeder.jan-hadenfeldt.de/', {
-            mode: "cors"
+      return dayjs(value).fromNow()
+    }
+  },
+  methods: {
+    updateFeed () {
+      this.feedIndex = 0
+      fetch('http://feeder.jan-hadenfeldt.de/', {
+        mode: 'cors'
+      })
+        .then((response) => {
+          return response.json()
         })
-          .then((response) => {
-            return response.json();
+        .then((myJson) => {
+          this.feed = myJson.slice(0, 10)
+
+          this.updateItem()
+        })
+    },
+    updateItem () {
+      this.currentItem = this.feed[this.feedIndex]
+      this.$nextTick(() => {
+        this.animate = true
+      })
+
+      setTimeout(() => {
+        this.animate = false
+      }, 29.75 * 1000)
+
+      setTimeout(() => {
+        this.feedIndex++
+
+        if (this.feedIndex >= this.feed.length) {
+          this.$nextTick(() => {
+            this.updateFeed()
           })
-          .then((myJson) => {
-            this.feed = myJson.slice(0, 10);
-
-            this.updateItem();
-          });
-      },
-      updateItem() {
-        this.currentItem = this.feed[this.feedIndex];
-        this.$nextTick(() => {
-          this.animate = true;
-        });
-
-        setTimeout(() => {
-          this.animate = false;
-        }, 29.75 * 1000);
-
-        setTimeout(() => {
-          this.feedIndex++;
-
-          if (this.feedIndex >= this.feed.length) {
-            this.$nextTick(() => {
-              this.updateFeed();
-            });
-          } else {
-            this.$nextTick(() => {
-              this.updateItem();
-            });
-          }
-        }, 30 * 1000);
-      }
+        } else {
+          this.$nextTick(() => {
+            this.updateItem()
+          })
+        }
+      }, 30 * 1000)
     }
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
