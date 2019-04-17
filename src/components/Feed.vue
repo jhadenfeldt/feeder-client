@@ -51,7 +51,7 @@ export default {
   methods: {
     updateFeed () {
       this.feedIndex = 0
-      fetch('http://feeder.jan-hadenfeldt.de/', {
+      fetch('http://feeder.jan-hadenfeldt.de/api', {
         mode: 'cors'
       })
         .then((response) => {
