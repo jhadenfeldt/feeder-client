@@ -1,7 +1,7 @@
 <template>
   <div class="feed" v-if="currentItem" :style="`background: linear-gradient(45deg, ${currentItem.gradient[0]}, ${currentItem.gradient[1]})`">
     <div class="feed__item">
-      <div class="feed__background" v-html="currentItem.content" v-if="currentItem.hasImage"></div>
+      <div class="feed__background" v-html="currentItem.content" :class="{'feed__background--fitImage': currentItem.fitImage}" v-if="currentItem.hasImage"></div>
       <div class="feed__content">
         <div class="feed__progressContainer">
           <div class="feed__progressBar" :class="{'feed__progressBar--animate': animate}" :style="`background: ${currentItem.gradient[0]}`"></div>
@@ -129,10 +129,25 @@ export default {
       font-size: 0;
 
       img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        position: absolute;
+        left: 15vw;
+        width: 70vw;
+        height: 50vh;
+        top: 15vh;
+        object-fit: contain;
       }
+
+      &--fitImage {
+        img {
+          position: relative;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
     }
 
     &__content {
