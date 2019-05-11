@@ -8,7 +8,7 @@
       </div>
     </transition>
     <transition name="fade">
-      <Menu v-show="isMenuOpen" :isMenuOpen="isMenuOpen" @closeMenu="closeMenu" @launchIframe="launchIframe" />
+      <Menu v-show="isMenuOpen" :isMenuOpen="isMenuOpen" @closeMenu="isMenuOpen = false" @launchIframe="launchIframe" />
     </transition>
     <button class="menu-button" @click="isMenuOpen = true">
       <img src="@/assets/menu.svg" />
@@ -35,9 +35,6 @@ export default {
     }
   },
   methods: {
-    closeMenu () {
-      this.isMenuOpen = false
-    },
     launchIframe (url) {
       this.iframeUrl = url
       this.isIframeOpen = true
