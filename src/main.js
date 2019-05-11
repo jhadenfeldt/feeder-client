@@ -3,6 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './registerServiceWorker'
+import VueFriendlyIframe from 'vue-friendly-iframe'
+
+Vue.component('vue-friendly-iframe', VueFriendlyIframe)
 
 Vue.config.productionTip = false
 
