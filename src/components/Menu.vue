@@ -3,7 +3,7 @@
     <div @click="$emit('closeMenu')" class="menu__close">
       <img src="@/assets/close.svg" />
     </div>
-    <div class="menu__inner">
+    <div class="menu__row">
       <div v-for="project in projects"
         :key="project._id"
         class="menu__project"
@@ -19,25 +19,8 @@
 
 export default {
   props: {
-    isMenuOpen: Boolean
-  },
-  data () {
-    return {
-      projects: [
-        {
-          name: 'Deployment Dash',
-          image: 'projects/deployment-dash.jpg',
-          url: 'https://dell-tech-world-deploy-078305.netlify.com/'
-        },
-        {
-          name: 'Device Defender',
-          image: 'projects/device-defender.jpg',
-          url: 'https://unified-workspace-security-9a6746.netlify.com/'
-        }
-      ]
-    }
-  },
-  mounted () {
+    isMenuOpen: Boolean,
+    projects: Array
   },
   methods: {
     getImage (img) {
@@ -60,7 +43,8 @@ export default {
     z-index: 50;
     justify-content: center;
     align-items: center;
-    &__inner {
+    flex-direction: column;
+    &__row {
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -69,7 +53,7 @@ export default {
     }
     &__project {
       background: #222;
-      max-width: 32%;
+      max-width: 27%;
       padding: 10px;
       cursor: pointer;
       border-radius: 5px;

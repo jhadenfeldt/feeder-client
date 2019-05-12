@@ -3,12 +3,12 @@
     <Feed />
     <transition name="fade">
       <div v-if="isIframeOpen" class="iframe-container">
-        <vue-friendly-iframe v-if="isIframeOpen" :src="iframeUrl" ></vue-friendly-iframe>
+        <vue-friendly-iframe v-if="isIframeOpen" :src="iframeUrl"></vue-friendly-iframe>
         <div @click="isIframeOpen = false; isMenuOpen = true" class="iFrame__close"><img src="@/assets/close.svg" /></div>
       </div>
     </transition>
     <transition name="fade">
-      <Menu v-show="isMenuOpen" :isMenuOpen="isMenuOpen" @closeMenu="isMenuOpen = false" @launchIframe="launchIframe" />
+      <Menu v-show="isMenuOpen" :isMenuOpen="isMenuOpen" :projects="projects" @closeMenu="isMenuOpen = false" @launchIframe="launchIframe" />
     </transition>
     <button class="menu-button" @click="isMenuOpen = true">
       <img src="@/assets/menu.svg" />
@@ -31,7 +31,24 @@ export default {
     return {
       isMenuOpen: false,
       isIframeOpen: false,
-      iframeUrl: ''
+      iframeUrl: '',
+      projects: [
+        {
+          name: 'vmware wall',
+          image: 'projects/vmware-wall.jpg',
+          url: 'https://vmwarefocuswallstaging.netlify.com/'
+        },
+        {
+          name: 'Deployment Dash',
+          image: 'projects/deployment-dash.jpg',
+          url: 'https://dell-tech-world-deploy-078305.netlify.com/'
+        },
+        {
+          name: 'Device Defender',
+          image: 'projects/device-defender.jpg',
+          url: 'https://unified-workspace-security-9a6746.netlify.com/'
+        }
+      ]
     }
   },
   methods: {
